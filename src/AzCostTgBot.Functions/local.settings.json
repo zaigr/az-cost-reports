@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "AzureSubscriptionId": "",
+    "ForecastReport:Enabled": "true",
+    "ForecastReport:Cron": "0 0 17 * * *",
+    "Telegram:ChatId": "348317615",
+    "Telegram:UatProxy": "https://az-cost-tgb-uat-proxy.azurewebsites.net/"
+  }
+}

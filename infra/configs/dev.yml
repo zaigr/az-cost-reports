@@ -1,0 +1,3 @@
+ForecastReport__Enabled: true
+ForecastReport__Cron: '0 0 17 * * *'
+Telegram__ChatId: 348317615

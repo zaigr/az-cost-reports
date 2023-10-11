@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel Condition="'$(WarningLevel)'==''">4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Warnings">
+    <NoWarn>CA1848</NoWarn>  <!-- Use of logger extension methods, such as LogInformation and LogDebug.-->
+  </PropertyGroup>
+
+  <Import Project="..\Directory.Build.targets" Condition="exists('..\Directory.Build.targets')" />
+</Project>
