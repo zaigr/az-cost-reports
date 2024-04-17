@@ -9,7 +9,8 @@ Deploy function infra using Azure Bicep:
 az deployment group create \
   --resource-group rg-costreport-{env}-westeu-01 \
   --template-file main.bicep \
-  --parameters params/main.dev.bicepparam
+  --parameters params/main.dev.bicepparam \
+  --parameters telegramApiKey={api_key}
 ```
 
 TODOs:

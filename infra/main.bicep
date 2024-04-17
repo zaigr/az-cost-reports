@@ -1,6 +1,8 @@
 param env string
 param appConfiguration object
 
+param useAppInsights bool = false
+
 @allowed([
   'Standard_LRS'
   'Standard_GRS'
@@ -13,6 +15,13 @@ param location string = resourceGroup().location
 @secure()
 param telegramApiKey string = ''
 
+module appInsights 'modules/appInsights.bicep' = if (useAppInsights) {
+  name: 'appInsights'
+  params: {
+    env: env
+    location: location
+  }
+}
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: 'stafunc${env}${location}01'
@@ -56,6 +65,10 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
         {
           name: 'AzureWebJobsStorage'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}'
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsights.outputs.connectionString
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'

@@ -64,5 +64,5 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 
 static string? GetSubscriptionIdEnvironmentValue()
 {
-    return Environment.GetEnvironmentVariable("WEBSITE_OWNER_NAME")?.Split('+').Last();
+    return Environment.GetEnvironmentVariable("WEBSITE_OWNER_NAME")?.Split('+').First();
 }
