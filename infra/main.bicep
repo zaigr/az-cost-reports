@@ -1,71 +1,37 @@
+targetScope = 'subscription'
+
 param env string
+param resourceGroupName string
 param appConfiguration object
 
-@allowed([
-  'Standard_LRS'
-  'Standard_GRS'
-  'Standard_RAGRS'
-])
-param storageAccountType string = 'Standard_LRS'
-
-param location string = resourceGroup().location
+param appInsightsConnString string = ''
+param createAppInsights bool = false
 
 @secure()
 param telegramApiKey string = ''
 
-
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: 'stafunc${env}${location}01'
-  location: location
-  kind: 'StorageV2'
-  sku: {
-    name: storageAccountType
+module appInsights 'modules/appInsights.bicep' = if (createAppInsights) {
+  name: 'appInsights'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    env: env
   }
 }
 
-resource hostingPlan 'Microsoft.Web/serverfarms@2022-09-01' = {
-  name: 'asp-costreport-${env}-${location}-01'
-  location: location
-  sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
+module webApps 'modules/webApps.bicep' = {
+  name: 'webApps'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    env: env
+    appConfiguration: appConfiguration
+    appInsightsConnString: createAppInsights ? appInsights.outputs.connectionString : appInsightsConnString
+    telegramApiKey: telegramApiKey
   }
-  properties: {}
 }
 
-var appSettingsDefinition = map(items(appConfiguration), pair => {
-  name: pair.key
-  value: pair.value
-})
-
-resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
-  name: 'func-costreport-${env}-${location}-01'
-  location: location
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    serverFarmId: hostingPlan.id
-    siteConfig: {
-      appSettings: concat([
-        {
-          name: 'Telegram:Token'
-          value: telegramApiKey
-        }
-        {
-          name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~4'
-        }
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'dotnet'
-        }
-      ], appSettingsDefinition)
-    }
+module roleAssignments 'modules/roleAssignments.bicep' = {
+  name: 'roleAssignments'
+  params: {
+    functionAppPrincipalId: webApps.outputs.functionAppPrincipalId
   }
 }
