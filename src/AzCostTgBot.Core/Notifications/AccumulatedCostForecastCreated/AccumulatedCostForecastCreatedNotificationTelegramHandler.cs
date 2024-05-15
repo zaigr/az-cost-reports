@@ -34,7 +34,7 @@ public class AccumulatedCostForecastCreatedNotificationTelegramHandler : INotifi
             _logger.LogError("Telegram handler failed to execute: {Error}", result.GetErrorMessage());
             return;
         }
-        
+
         _logger.LogInformation("Telegram handler successfully executed.");
     }
 }

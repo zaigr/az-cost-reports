@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);CA2007;IDE0058</NoWarn>
     <UserSecretsId>899115e1-da9b-4118-8c08-f246ccc32e50</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>

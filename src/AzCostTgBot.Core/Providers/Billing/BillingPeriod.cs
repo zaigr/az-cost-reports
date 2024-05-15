@@ -3,4 +3,4 @@
 public record BillingPeriod(
     string Name,
     DateOnly Start,
-    DateOnly End);  
+    DateOnly End);

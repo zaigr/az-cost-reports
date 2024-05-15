@@ -25,7 +25,7 @@ public class SendAccumulatedCostForecastCommandHandler : IRequestHandler<SendAcc
     public async Task Handle(SendAccumulatedCostForecastCommand request, CancellationToken cancellationToken)
     {
         var billingPeriod = await GetCurrentBillingPeriod(cancellationToken);
-        
+
         var forecast = await _costManagementProvider.GetTotalForecast(billingPeriod.Start, billingPeriod.End, cancellationToken);
 
         // TODO: handle missing forecast
@@ -36,10 +36,10 @@ public class SendAccumulatedCostForecastCommandHandler : IRequestHandler<SendAcc
     private async Task<BillingPeriod> GetCurrentBillingPeriod(CancellationToken cancellation)
     {
         var now = DateTimeOffset.UtcNow;
-        
+
         var billingDate = AtMonthStart(now.AddMonths(1));
         var billingPeriod = await _billingProvider.GetBillingPeriod(billingDate.Year, billingDate.Month, cancellation);
-        
+
         if (billingPeriod.End.ToUtcDate() < now)
         {
             billingDate = AtMonthStart(now.AddMonths(2));

@@ -24,6 +24,3 @@ TODOs:
 - [ ] generate tests
 - [ ] GitHub pipeline
 - [ ] Feature toggle to support multiple chats
-- [ ] Stylecop for missing lint rules
- - [ ] unused usings
- - [ ] unnecessary break/whitespace

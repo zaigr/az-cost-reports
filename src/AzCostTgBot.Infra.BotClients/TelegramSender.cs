@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 
 namespace AzCostTgBot.Infra.BotClients;
 
@@ -32,12 +33,12 @@ public class TelegramSender : ITelegramSender
         {
             return Result.Fail($"{nameof(message)} cannot be null or white space.");
         }
-        
+
         try
         {
-            await _client.SendTextMessageAsync(_chatId, message, cancellationToken: cancellation);
+            _ = await _client.SendTextMessageAsync(_chatId, message, cancellationToken: cancellation).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch (RequestException e)
         {
             _logger.LogError(e, "Exception in telegram client");
             return Result.Fail(e.Message);
