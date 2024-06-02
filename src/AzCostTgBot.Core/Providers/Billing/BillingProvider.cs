@@ -17,28 +17,28 @@ public class BillingProvider : IBillingProvider
 
     public BillingProvider(HttpClient httpClient, IOptions<AzureConfiguration> options)
     {
-        this._httpClient = httpClient;
+        _httpClient = httpClient;
         _subscriptionId = options.Value.SubscriptionId;
     }
 
     public async Task<BillingPeriod> GetBillingPeriod(int year, int month, CancellationToken cancellation = default)
     {
         var billingPeriodName = GetBillingPeriodName(year, month);
-        
+
         var uri = GetRequestUri($"billingPeriods/{billingPeriodName}");
         var token = await GetAccessToken(cancellation);
-        
-        var request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        
+
         var response = await _httpClient.SendAsync(request, cancellation);
-        response.EnsureSuccessStatusCode();
-        
+        _ = response.EnsureSuccessStatusCode();
+
         var result = await response.Content.ReadFromJsonAsync<BillingPeriodResponse>(cancellationToken: cancellation);
         EnsureValidResult(result);
-        
+
         var billingPeriod = new BillingPeriod(
-            result!.Name, 
+            result!.Name,
             DateOnly.Parse(result.Properties[BillingPeriodResponse.StartDateProperty], CultureInfo.InvariantCulture),
             DateOnly.Parse(result.Properties[BillingPeriodResponse.EndDateProperty], CultureInfo.InvariantCulture));
 
@@ -53,8 +53,8 @@ public class BillingProvider : IBillingProvider
     private static async Task<string> GetAccessToken(CancellationToken cancellation)
     {
         var azCredential = new DefaultAzureCredential();
-        var tokenRequestContext = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
-        
+        var tokenRequestContext = new TokenRequestContext(["https://management.azure.com/.default"]);
+
         var token = await azCredential.GetTokenAsync(tokenRequestContext, cancellation);
 
         return token.Token;

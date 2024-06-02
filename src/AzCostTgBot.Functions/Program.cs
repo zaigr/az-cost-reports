@@ -29,7 +29,8 @@ var host = new HostBuilder()
 
         services.Configure<AzureConfiguration>(cfg =>
         {
-            cfg.SubscriptionId = GetSubscriptionIdEnvironmentValue() ?? host.Configuration.GetValue<string>("AzureSubscriptionId");
+            cfg.SubscriptionId = GetSubscriptionIdEnvironmentValue()
+                                 ?? host.Configuration.GetValue("AzureSubscriptionId", String.Empty)!;
         });
 
         services

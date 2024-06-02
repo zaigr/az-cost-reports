@@ -3,7 +3,7 @@
 public class ForecastRequestModel
 {
     public required string Type { get; init; }
-    
+
     public required TimePeriodModel TimePeriod { get; init; }
 
     public bool IncludeActualCost { get; init; }

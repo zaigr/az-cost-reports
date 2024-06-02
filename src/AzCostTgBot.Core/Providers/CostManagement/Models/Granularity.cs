@@ -4,5 +4,5 @@ public enum Granularity
 {
     None,
     Daily,
-    Monthly
+    Monthly,
 }

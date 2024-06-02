@@ -26,7 +26,7 @@ public class CostManagementProvider : ICostManagementProvider
         Converters =
         {
             new JsonStringEnumConverter(),
-        }
+        },
     };
 
     public CostManagementProvider(HttpClient httpClient, IOptions<AzureConfiguration> options)
@@ -52,14 +52,17 @@ public class CostManagementProvider : ICostManagementProvider
                     {
                         ["totalCost"] = new() { Name = "Cost", Function = "Sum", },
                     },
-                Grouping = new[] { new Grouping { Type = "Dimension", Name = "Subscription" }, },
-            }
+                Grouping = [new Grouping { Type = "Dimension", Name = "Subscription" },],
+            },
         };
 
         var requestUri = GetRequestUri("forecast");
-        var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+        using var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
         {
-            Content = new StringContent(JsonSerializer.Serialize(forecastRequest, _jsonSerializerOptions), Encoding.UTF8, "application/json"),
+            Content = new StringContent(
+                JsonSerializer.Serialize(forecastRequest, _jsonSerializerOptions),
+                Encoding.UTF8,
+                "application/json"),
         };
 
         var response = await GetResponse<ForecastResponse>(request, cancellation);
@@ -77,7 +80,7 @@ public class CostManagementProvider : ICostManagementProvider
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await _httpClient.SendAsync(request, cancellation);
-        response.EnsureSuccessStatusCode();
+        _ = response.EnsureSuccessStatusCode();
 
         var res = await response.Content.ReadAsStringAsync(cancellation);
 
@@ -92,7 +95,7 @@ public class CostManagementProvider : ICostManagementProvider
     private static async Task<string> GetAccessToken(CancellationToken cancellation)
     {
         var azCredential = new DefaultAzureCredential();
-        var tokenRequestContext = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
+        var tokenRequestContext = new TokenRequestContext(["https://management.azure.com/.default"]);
 
         var token = await azCredential.GetTokenAsync(tokenRequestContext, cancellation);
 

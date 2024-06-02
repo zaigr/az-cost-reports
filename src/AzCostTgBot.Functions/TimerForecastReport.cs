@@ -24,7 +24,7 @@ public class TimerForecastReport
 
     [Function("TimerForecastReport")]
     [FixedDelayRetry(5, "00:00:10")]
-    public async Task Run([TimerTrigger("%ForecastReport:Cron%")] TimerInfo myTimer, FunctionContext context)
+    public async Task Run([TimerTrigger("%ForecastReport:Cron%")] TimerInfo _, FunctionContext context)
     {
         _logger.LogInformation("C# Timer trigger function executed at: {Now}", DateTime.UtcNow);
 
