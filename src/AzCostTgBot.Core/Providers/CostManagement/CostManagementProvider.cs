@@ -111,10 +111,11 @@ public class CostManagementProvider : ICostManagementProvider
         }
 
         var forecasted = response.Properties.Rows.FirstOrDefault(r => r[ForecastRowTypeIndex].ValueEquals("Forecast"));
+        var forecastedCost = forecasted?[ForecastRowCostIndex].Deserialize<decimal>();
 
         var currency = actual[ForecastRowCurrencyIndex].GetString() ?? string.Empty;
         var actualCost = actual[ForecastRowCostIndex].Deserialize<decimal>();
 
-        return new TotalForecast(currency, actualCost, forecasted?[ForecastRowCostIndex].Deserialize<decimal>());
+        return new TotalForecast(currency, actualCost, forecastedCost);
     }
 }

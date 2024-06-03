@@ -4,5 +4,5 @@ namespace AzCostTgBot.Infra.BotClients;
 
 public interface ITelegramSender
 {
-    Task<Result> SendMessageAsync(string message, CancellationToken cancellation = default);
+    Task<Result> SendMessageAsync(TelegramMessage message, CancellationToken cancellation = default);
 }

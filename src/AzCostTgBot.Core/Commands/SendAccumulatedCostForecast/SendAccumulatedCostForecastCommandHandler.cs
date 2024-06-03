@@ -1,5 +1,5 @@
 ﻿using AzCostTgBot.Core.Extensions;
-using AzCostTgBot.Core.Notifications.AccumulatedCostForecastCreated;
+using AzCostTgBot.Core.Notifications.BotMessageCreated;
 using AzCostTgBot.Core.Providers.Billing;
 using AzCostTgBot.Core.Providers.CostManagement;
 using MediatR;
@@ -29,7 +29,15 @@ public class SendAccumulatedCostForecastCommandHandler : IRequestHandler<SendAcc
         var forecast = await _costManagementProvider.GetTotalForecast(billingPeriod.Start, billingPeriod.End, cancellationToken);
 
         // TODO: handle missing forecast
-        var notification = new AccumulatedCostForecastCreatedNotification(forecast.Actual, forecast.Forecast ?? 0, forecast.Currency);
+        var botMessage = new AccumulatedCostForecastBotMessage
+        {
+            ActualCost = forecast.Actual,
+            MonthForecastCost = forecast.Actual + (forecast.Forecast ?? 0),
+            CurrencyCode = forecast.Currency,
+            Date = DateTimeOffset.UtcNow,
+        };
+        var notification = new BotMessageCreatedNotification(botMessage);
+
         await _mediator.Publish(notification, cancellationToken);
     }
 
