@@ -1,6 +1,52 @@
 # Azure Cost Monitoring Telegram Bot
 
-Azure Function timer app periodically calling Azure API to get forecasted monthly cost and send it to Telegram bot.
+An Azure Function timer app periodically calls the Azure API to get the forecasted monthly cost and sends it to a Telegram bot.
+
+## Run locally
+
+To run the function locally add `SubscriptionId`, `Telegram:ChatId` and `Telegram:Token` to configuration either by adding to `local.settings.json` or using `dotnet-secrets`
+(see [how to get Telegram Bot Chat ID and Token](#how-to-get-telegram-bot-chat-id-and-token))
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    ...
+    "AzureSubscriptionId": "...",
+    ...
+    "Telegram:ChatId": "...",
+    "Telegram:Token": "..."
+  }
+}
+```
+
+### How to get Telegram Bot Chat ID and Token
+
+1. Obtain your API key from [BotFather](https://core.telegram.org/bots/tutorial)
+2. Open this URL in a browser https://api.telegram.org/bot{bot_token}/getUpdates
+ - Token is prefixed by `bot`
+ - URL will look like `https://api.telegram.org/bot12xxxxxx89:ABCoxxxxxx-xxxxxxdf4h/getUpdates`
+3. The response would look like
+```json
+{
+  "ok": true,
+  "result": [
+    {
+      ...
+      "message": {
+        "message_id": 1234,
+        "from": {...},
+        "chat": {
+          "id": 21xxxxx38,
+          ...
+        },
+        "date": 1703062972,
+        "text": "/start"
+      }
+    }
+  ]
+}
+```
+4. Chat ID value is in `result.0.message.chat.id`: `34xxxxx15`
 
 ## Deployment
 
@@ -14,13 +60,3 @@ az deployment sub create \
 ```
 
 Deployment should happen on subscription scope in order to create `Billing.Reader` role assignment;
-
-
-# Appendix
-
-TODOs:
-- [ ] Setup `nuke` build and add `setup-dev-secrets` command
-- [x] add `bicep` IaC
-- [ ] generate tests
-- [ ] GitHub pipeline
-- [ ] Feature toggle to support multiple chats
