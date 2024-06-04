@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E2542F11-AA3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzCostTgBot.Core", "src\AzCostTgBot.Core\AzCostTgBot.Core.csproj", "{CDD0D0E8-82E6-436C-BB0B-169538AB4CA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzCostTgBot.Infra.BotClients", "src\AzCostTgBot.Infra.BotClients\AzCostTgBot.Infra.BotClients.csproj", "{FC17CAB8-8306-4ECD-91A4-08E3AA4261D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzCostTgBot.BotClients.Telegram", "src\AzCostTgBot.BotClients.Telegram\AzCostTgBot.BotClients.Telegram.csproj", "{FC17CAB8-8306-4ECD-91A4-08E3AA4261D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{73E68D69-6290-44EC-81BE-AA7AA8D69770}"
 EndProject

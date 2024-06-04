@@ -1,5 +1,5 @@
-﻿using AzCostTgBot.Core.Extensions;
-using AzCostTgBot.Infra.BotClients;
+﻿using AzCostTgBot.BotClients.Telegram;
+using AzCostTgBot.Core.Extensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

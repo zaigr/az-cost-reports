@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 
-namespace AzCostTgBot.Infra.BotClients;
+namespace AzCostTgBot.BotClients.Telegram;
 
 public class TelegramSender : ITelegramSender
 {

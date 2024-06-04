@@ -1,4 +1,4 @@
-﻿using AzCostTgBot.Infra.BotClients;
+﻿using AzCostTgBot.BotClients.Telegram;
 
 namespace AzCostTgBot.Core;
 

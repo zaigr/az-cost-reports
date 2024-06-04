@@ -1,4 +1,4 @@
-﻿namespace AzCostTgBot.Infra.BotClients;
+﻿namespace AzCostTgBot.BotClients.Telegram;
 
 public class TelegramConfiguration
 {

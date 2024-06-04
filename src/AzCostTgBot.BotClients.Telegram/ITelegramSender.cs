@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 
-namespace AzCostTgBot.Infra.BotClients;
+namespace AzCostTgBot.BotClients.Telegram;
 
 public interface ITelegramSender
 {
