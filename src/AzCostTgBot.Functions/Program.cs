@@ -1,8 +1,8 @@
+using AzCostTgBot.BotClients.Telegram;
 using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
 using AzCostTgBot.Core.Providers;
 using AzCostTgBot.Core.Providers.Billing;
 using AzCostTgBot.Core.Providers.CostManagement;
-using AzCostTgBot.Infra.BotClients;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +30,7 @@ var host = new HostBuilder()
         services.Configure<AzureConfiguration>(cfg =>
         {
             cfg.SubscriptionId = GetSubscriptionIdEnvironmentValue()
-                                 ?? host.Configuration.GetValue("AzureSubscriptionId", String.Empty)!;
+                                 ?? host.Configuration.GetValue("AzureSubscriptionId", string.Empty)!;
         });
 
         services

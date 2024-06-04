@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 
-namespace AzCostTgBot.Infra.BotClients;
+namespace AzCostTgBot.BotClients.Telegram;
 
 public class TelegramSender : ITelegramSender
 {
@@ -27,16 +27,16 @@ public class TelegramSender : ITelegramSender
         _client = new TelegramBotClient(botClientOptions, httpClient);
     }
 
-    public async Task<Result> SendMessageAsync(string message, CancellationToken cancellation = default)
+    public async Task<Result> SendMessageAsync(TelegramMessage message, CancellationToken cancellation = default)
     {
-        if (string.IsNullOrWhiteSpace(message))
+        if (string.IsNullOrWhiteSpace(message.Text))
         {
-            return Result.Fail($"{nameof(message)} cannot be null or white space.");
+            return Result.Fail($"{nameof(message.Text)} cannot be null or white space.");
         }
 
         try
         {
-            _ = await _client.SendTextMessageAsync(_chatId, message, cancellationToken: cancellation).ConfigureAwait(false);
+            _ = await _client.SendTextMessageAsync(_chatId, message.Text, cancellationToken: cancellation).ConfigureAwait(false);
         }
         catch (RequestException e)
         {

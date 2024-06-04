@@ -1,4 +1,5 @@
-﻿using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
+﻿using System.Diagnostics.CodeAnalysis;
+using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
 using MediatR;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,8 @@ public class TimerForecastReport
 
     [Function("TimerForecastReport")]
     [FixedDelayRetry(5, "00:00:10")]
-    public async Task Run([TimerTrigger("%ForecastReport:Cron%")] TimerInfo _, FunctionContext context)
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
+    public async Task Run([TimerTrigger("%ForecastReport:Cron%")] TimerInfo myTimer, FunctionContext context)
     {
         _logger.LogInformation("C# Timer trigger function executed at: {Now}", DateTime.UtcNow);
 
