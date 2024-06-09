@@ -30,7 +30,7 @@ public class TimerForecastReport
     {
         _logger.LogInformation("C# Timer trigger function executed at: {Now}", DateTime.UtcNow);
 
-        if (_configuration.GetValue<bool>("ForecastReport:Enabled") == false)
+        if (!_configuration.GetValue<bool>("ForecastReport:Enabled"))
         {
             _logger.LogInformation("Daily cost report is disabled.");
             return;
