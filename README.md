@@ -1,6 +1,6 @@
 # Azure Cost Monitoring Telegram Bot
 
-![Build](https://github.com/zaigr/az-cost-reports/actions/workflows/WORKFLOW-FILE/badge.svg?branch=main)
+![Build](https://github.com/zaigr/az-cost-reports/actions/workflows/build.yml/badge.svg?branch=main)
 
 An Azure Function timer app periodically calls the Azure API to get the forecasted monthly cost and sends it to a Telegram bot.
 
