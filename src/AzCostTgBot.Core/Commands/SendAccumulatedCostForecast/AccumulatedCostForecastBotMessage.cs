@@ -20,7 +20,10 @@ public class AccumulatedCostForecastBotMessage : BotMessageBase
                 Forecast: {MonthForecastCost:F} {CurrencyCode}
         """;
 
-        return new TelegramMessage(text);
+        return new TelegramMessage
+        {
+            Text = text,
+        };
     }
 }
 

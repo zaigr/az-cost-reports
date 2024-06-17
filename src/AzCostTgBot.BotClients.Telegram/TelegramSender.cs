@@ -1,11 +1,14 @@
-﻿using FluentResults;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentResults;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Types;
 
 namespace AzCostTgBot.BotClients.Telegram;
 
+[SuppressMessage("Style", "IDE0058:Expression value is never used")]
 public class TelegramSender : ITelegramSender
 {
     private readonly string _chatId;
@@ -36,7 +39,25 @@ public class TelegramSender : ITelegramSender
 
         try
         {
-            _ = await _client.SendTextMessageAsync(_chatId, message.Text, cancellationToken: cancellation).ConfigureAwait(false);
+            IReadOnlyCollection<IAlbumInputMedia> media = message switch
+            {
+                TelegramMediaMessage<TelegramMediaPhoto> photoMessage => photoMessage.Media
+                    .Select(p => new InputMediaPhoto(new InputFileStream(p.Media, p.Name))
+                    {
+                        Caption = p.Caption ?? message.Text,
+                    })
+                    .ToList(),
+                _ => []
+            };
+
+            if (media.Count != 0)
+            {
+                await _client.SendMediaGroupAsync(_chatId, media, cancellationToken: cancellation).ConfigureAwait(false);
+            }
+            else
+            {
+                await _client.SendTextMessageAsync(_chatId, message.Text, cancellationToken: cancellation).ConfigureAwait(false);
+            }
         }
         catch (RequestException e)
         {

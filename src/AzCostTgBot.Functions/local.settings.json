@@ -6,6 +6,8 @@
     "AzureSubscriptionId": "",
     "ForecastReport:Enabled": "true",
     "ForecastReport:Cron": "0 0 17 * * *",
+    "TimerLastBillingPeriodRgReport:Enabled": "true",
+    "TimerLastBillingPeriodRgReport:Cron": "0 0 17 13 * *",
     "Telegram:ChatId": "348317615",
     "Telegram:UatProxy": ""
   }

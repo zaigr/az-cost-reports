@@ -1,16 +1,12 @@
 ﻿namespace AzCostTgBot.Core.Providers.CostManagement.Models;
 
-public class ForecastRequestModel
+public class QueryRequestModel
 {
     public required ExportType Type { get; init; }
 
-    public required TimePeriodModel TimePeriod { get; init; }
-
-    public bool IncludeActualCost { get; init; }
-
-    public bool IncludeFreshPartialCost { get; init; }
-
     public required Timeframe Timeframe { get; init; }
+
+    public TimePeriodModel? TimePeriod { get; init; }
 
     public required DatasetModel Dataset { get; init; }
 }
