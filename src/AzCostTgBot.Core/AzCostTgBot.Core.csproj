@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AzCostTgBot.BotClients.Telegram\AzCostTgBot.BotClients.Telegram.csproj" />
+    <ProjectReference Include="..\AzCostTgBot.Drawing\AzCostTgBot.Drawing.csproj" />
   </ItemGroup>
 
 </Project>

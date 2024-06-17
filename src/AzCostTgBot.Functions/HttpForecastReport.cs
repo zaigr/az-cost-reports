@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
+using AzCostTgBot.Core.Commands.SendLastBillingPeriodRgBreakdown;
 using MediatR;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -20,7 +20,7 @@ public static class HttpForecastReport
 
         var mediator = context.InstanceServices.GetRequiredService<IMediator>();
 
-        await mediator.Send(new SendAccumulatedCostForecastCommand(), context.CancellationToken);
+        await mediator.Send(new SendLastBillingPeriodRgBreakdownCommand(), context.CancellationToken);
 
         return req.CreateResponse(HttpStatusCode.OK);
     }

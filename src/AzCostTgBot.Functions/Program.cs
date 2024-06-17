@@ -3,6 +3,7 @@ using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
 using AzCostTgBot.Core.Providers;
 using AzCostTgBot.Core.Providers.Billing;
 using AzCostTgBot.Core.Providers.CostManagement;
+using AzCostTgBot.Drawing;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,8 @@ var host = new HostBuilder()
             .AddHttpClient("TelegramClient")
             .AddPolicyHandler(GetRetryPolicy())
             .AddTypedClient<ITelegramSender, TelegramSender>();
+
+        services.AddDrawing();
     })
     .Build();
 

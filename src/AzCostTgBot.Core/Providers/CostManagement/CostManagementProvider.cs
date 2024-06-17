@@ -15,6 +15,10 @@ public class CostManagementProvider : ICostManagementProvider
     private const int ForecastRowTypeIndex = 1;
     private const int ForecastRowCurrencyIndex = 2;
 
+    private const string QueryCostColumn = "Cost";
+    private const string QueryResourceGroupColumn = "ResourceGroup";
+    private const string QueryCurrencyColumn = "Currency";
+
     private readonly string _baseUrl = "https://management.azure.com/";
     private readonly string _apiVersion = "2022-10-01";
     private readonly HttpClient _httpClient;
@@ -39,8 +43,8 @@ public class CostManagementProvider : ICostManagementProvider
     {
         var forecastRequest = new ForecastRequestModel
         {
-            Type = "Usage",
-            Timeframe = "Custom",
+            Type = ExportType.Usage,
+            Timeframe = Timeframe.Custom,
             TimePeriod = new TimePeriodModel { From = from, To = until, },
             IncludeActualCost = true,
             IncludeFreshPartialCost = true,
@@ -72,6 +76,42 @@ public class CostManagementProvider : ICostManagementProvider
         }
 
         return ToTotalForecast(response);
+    }
+
+    public async Task<IReadOnlyCollection<ResourceCost>> GetRgLastBillingPeriodCost(CancellationToken cancellation = default)
+    {
+        var requestModel = new QueryRequestModel
+        {
+            Type = ExportType.ActualCost,
+            Timeframe = Timeframe.TheLastBillingMonth,
+            Dataset = new DatasetModel
+            {
+                Granularity = Granularity.None,
+                Aggregation =
+                    new Dictionary<string, Aggregation>
+                    {
+                        ["totalCost"] = new() { Name = "Cost", Function = "Sum", },
+                    },
+                Grouping = [new Grouping { Type = "Dimension", Name = "ResourceGroup" },],
+            },
+        };
+
+        var requestUri = GetRequestUri("query");
+        using var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+        {
+            Content = new StringContent(
+                JsonSerializer.Serialize(requestModel, _jsonSerializerOptions),
+                Encoding.UTF8,
+                "application/json"),
+        };
+
+        var response = await GetResponse<QueryResponse>(request, cancellation);
+        if (response is null)
+        {
+            throw new InvalidOperationException("Failed to get forecast response.");
+        }
+
+        return ToResourceGroupCost(response);
     }
 
     private async Task<T?> GetResponse<T>(HttpRequestMessage request, CancellationToken cancellation)
@@ -117,5 +157,20 @@ public class CostManagementProvider : ICostManagementProvider
         var actualCost = actual[ForecastRowCostIndex].Deserialize<decimal>();
 
         return new TotalForecast(currency, actualCost, forecastedCost);
+    }
+
+    private static List<ResourceCost> ToResourceGroupCost(QueryResponse response)
+    {
+        var costIndex = Array.FindIndex(response.Properties.Columns, c => c.Name == QueryCostColumn);
+        var rgIndex = Array.FindIndex(response.Properties.Columns, c => c.Name == QueryResourceGroupColumn);
+        var currencyIndex = Array.FindIndex(response.Properties.Columns, c => c.Name == QueryCurrencyColumn);
+
+        return response.Properties.Rows
+            .Select(r => new ResourceCost(
+                Type: QueryResourceGroupColumn,
+                r[rgIndex].GetString() ?? string.Empty,
+                r[costIndex].Deserialize<decimal>(),
+                r[currencyIndex].GetString() ?? string.Empty))
+            .ToList();
     }
 }
