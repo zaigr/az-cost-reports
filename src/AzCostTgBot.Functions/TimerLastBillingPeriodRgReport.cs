@@ -11,12 +11,12 @@ public class TimerLastBillingPeriodRgReport
 {
     private readonly IMediator _mediator;
     private readonly IConfiguration _configuration;
-    private readonly ILogger<TimerForecastReport> _logger;
+    private readonly ILogger<TimerLastBillingPeriodRgReport> _logger;
 
     public TimerLastBillingPeriodRgReport(
         IMediator mediator,
         IConfiguration configuration,
-        ILogger<TimerForecastReport> logger)
+        ILogger<TimerLastBillingPeriodRgReport> logger)
     {
         _mediator = mediator;
         _configuration = configuration;
@@ -26,11 +26,11 @@ public class TimerLastBillingPeriodRgReport
     [Function("TimerLastBillingPeriodRgReport")]
     [FixedDelayRetry(5, "00:00:10")]
     [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-    public async Task Run([TimerTrigger("%TimerLastBillingPeriodRgReport:Cron%")] TimerInfo myTimer, FunctionContext context)
+    public async Task Run([TimerTrigger("%LastBillingPeriodRgReport:Cron%")] TimerInfo myTimer, FunctionContext context)
     {
         _logger.LogInformation("C# Timer trigger function executed at: {Now}", DateTime.UtcNow);
 
-        if (!_configuration.GetValue<bool>("TimerLastBillingPeriodRgReport:Enabled"))
+        if (!_configuration.GetValue<bool>("LastBillingPeriodRgReport:Enabled"))
         {
             _logger.LogInformation("Resource group report is disabled.");
             return;
