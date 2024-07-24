@@ -62,7 +62,7 @@ public class SkiaPlotting : IPlotting
                 using (var textPaint = new SKPaint { Color = SKColors.Black, TextSize = fontSize, IsAntialias = true })
                 {
                     var percentage = valueShare * 100;
-                    var valueLabelText = $"{FormatNumber(values[i])} ({percentage:F1}%)";
+                    var valueLabelText = $"{FormatNumber(values[i])} ({(percentage < 0.1 ? "~" : string.Empty)}{percentage:F1}%)";
 
                     var textBounds = new SKRect();
                     _ = textPaint.MeasureText(valueLabelText, ref textBounds);

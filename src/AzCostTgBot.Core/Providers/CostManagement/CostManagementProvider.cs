@@ -3,8 +3,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AzCostTgBot.Core.Providers.CostManagement.Models;
+using AzCostTgBot.Core.Providers.Credential;
 using Azure.Core;
-using Azure.Identity;
 using Microsoft.Extensions.Options;
 
 namespace AzCostTgBot.Core.Providers.CostManagement;
@@ -23,6 +23,7 @@ public class CostManagementProvider : ICostManagementProvider
     private readonly string _apiVersion = "2022-10-01";
     private readonly HttpClient _httpClient;
     private readonly string _subscriptionId;
+    private readonly IAzureCredentialProvider _credentialProvider;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -33,9 +34,10 @@ public class CostManagementProvider : ICostManagementProvider
         },
     };
 
-    public CostManagementProvider(HttpClient httpClient, IOptions<AzureConfiguration> options)
+    public CostManagementProvider(HttpClient httpClient, IAzureCredentialProvider credentialProvider, IOptions<AzureConfiguration> options)
     {
         _httpClient = httpClient;
+        _credentialProvider = credentialProvider;
         _subscriptionId = options.Value.SubscriptionId;
     }
 
@@ -132,12 +134,11 @@ public class CostManagementProvider : ICostManagementProvider
         return new Uri($"{_baseUrl}/subscriptions/{_subscriptionId}/providers/Microsoft.CostManagement/{endpoint}?api-version={_apiVersion}");
     }
 
-    private static async Task<string> GetAccessToken(CancellationToken cancellation)
+    private async Task<string> GetAccessToken(CancellationToken cancellation)
     {
-        var azCredential = new DefaultAzureCredential();
         var tokenRequestContext = new TokenRequestContext(["https://management.azure.com/.default"]);
 
-        var token = await azCredential.GetTokenAsync(tokenRequestContext, cancellation);
+        var token = await _credentialProvider.GetToken(tokenRequestContext, cancellation);
 
         return token.Token;
     }

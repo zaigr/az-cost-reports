@@ -156,4 +156,4 @@ dotnet_diagnostic.IDE0270.severity = none
 dotnet_diagnostic.CA1062.severity = none  # Validate arguments of public methods
 dotnet_diagnostic.CA1848.severity = none  # Use the LoggerMessage delegates
 dotnet_diagnostic.CA1852.severity = none  # Seal internal types
-dotnet_code_quality.CA2007.output_kind = ConsoleApplication, DynamicallyLinkedLibrary
+dotnet_code_quality.CA2007.output_kind = DynamicallyLinkedLibrary

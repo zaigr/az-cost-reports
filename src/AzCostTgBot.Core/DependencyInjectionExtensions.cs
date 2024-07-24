@@ -3,6 +3,7 @@ using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
 using AzCostTgBot.Core.Providers;
 using AzCostTgBot.Core.Providers.Billing;
 using AzCostTgBot.Core.Providers.CostManagement;
+using AzCostTgBot.Core.Providers.Credential;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
@@ -21,6 +22,8 @@ public static class DependencyInjectionExtensions
         {
             cfg.RegisterServicesFromAssemblyContaining<SendAccumulatedCostForecastCommand>();
         });
+
+        services.AddScoped<IAzureCredentialProvider, AzureCredentialProvider>();
 
         services
             .AddHttpClient<IBillingProvider, BillingProvider>()
