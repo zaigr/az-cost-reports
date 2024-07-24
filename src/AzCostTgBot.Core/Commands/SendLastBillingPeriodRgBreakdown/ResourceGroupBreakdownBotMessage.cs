@@ -16,7 +16,7 @@ public class ResourceGroupBreakdownBotMessage : BotMessageBase
         {
             Media = [new TelegramMediaPhoto { Media = Chart, Name = "chart", }],
             Text = Breakdown
-                .Select(x => $"{x.Cost:F2} {CurrencyCode}: {x.Name}")
+                .Select(x => $"{(x.Cost >= 0.01m ? x.Cost : 0.01m):F2} {CurrencyCode}: {x.Name}")
                 .Aggregate((x, y) => $"{x}\n{y}"),
         };
     }

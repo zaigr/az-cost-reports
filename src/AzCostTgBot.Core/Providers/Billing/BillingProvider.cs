@@ -2,8 +2,8 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using AzCostTgBot.Core.Providers.Billing.Models;
+using AzCostTgBot.Core.Providers.Credential;
 using Azure.Core;
-using Azure.Identity;
 using Microsoft.Extensions.Options;
 
 namespace AzCostTgBot.Core.Providers.Billing;
@@ -14,10 +14,12 @@ public class BillingProvider : IBillingProvider
     private readonly string _apiVersion = "2018-03-01-preview";
     private readonly HttpClient _httpClient;
     private readonly string _subscriptionId;
+    private readonly IAzureCredentialProvider _credentialProvider;
 
-    public BillingProvider(HttpClient httpClient, IOptions<AzureConfiguration> options)
+    public BillingProvider(HttpClient httpClient, IAzureCredentialProvider credentialProvider, IOptions<AzureConfiguration> options)
     {
         _httpClient = httpClient;
+        _credentialProvider = credentialProvider;
         _subscriptionId = options.Value.SubscriptionId;
     }
 
@@ -50,12 +52,11 @@ public class BillingProvider : IBillingProvider
         return new Uri($"{_baseUrl}/subscriptions/{_subscriptionId}/providers/Microsoft.Billing/{endpoint}?api-version={_apiVersion}");
     }
 
-    private static async Task<string> GetAccessToken(CancellationToken cancellation)
+    private async Task<string> GetAccessToken(CancellationToken cancellation)
     {
-        var azCredential = new DefaultAzureCredential();
         var tokenRequestContext = new TokenRequestContext(["https://management.azure.com/.default"]);
 
-        var token = await azCredential.GetTokenAsync(tokenRequestContext, cancellation);
+        var token = await _credentialProvider.GetToken(tokenRequestContext, cancellation);
 
         return token.Token;
     }
