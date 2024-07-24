@@ -7,7 +7,7 @@
     <PackageVersion Include="Azure.ResourceManager.Billing" Version="1.1.0" />
     <PackageVersion Include="Cocona" Version="2.2.0" />
     <PackageVersion Include="FluentResults" Version="3.15.2" />
-    <PackageVersion Include="MediatR" Version="12.3.0" />
+    <PackageVersion Include="MediatR" Version="12.4.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="1.22.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="1.2.0" />
