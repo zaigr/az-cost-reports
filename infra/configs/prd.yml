@@ -1,5 +1,5 @@
 ForecastReport__Enabled: true
 ForecastReport__Cron: '0 0 17 * * *'
-TimerLastBillingPeriodRgReport__Enabled: true
-TimerLastBillingPeriodRgReport:Cron: '0 0 17 13 * *'
+LastBillingPeriodRgReport__Enabled: true
+LastBillingPeriodRgReport:Cron: '0 0 17 13 * *'
 Telegram__ChatId: 348317615
