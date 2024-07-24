@@ -4,6 +4,21 @@
 
 An Azure Function timer app periodically calls the Azure API to get the forecasted monthly cost and sends it to a Telegram bot.
 
+### Forecasted cost report
+
+Report executes daily; It sends accumulated actual and final forcasted cost for current billing period:
+```
+Cost for 24/5/16:
+  Actual: 2.57 USD
+  Forecast: 6.68 USD
+```
+> Edit `ForecastReport:Cron` to change the schedule
+
+### Resource groups cost for last billing month
+
+Configure report to execute next day after billing period end by setting `LastBillingPeriodRgReport:Cron`; Report is represented by a pie chart like:
+![rg-cost-pie.png](docs/rg-cost-pie.png)
+
 ## Run locally
 
 To run the function locally add `SubscriptionId`, `Telegram:ChatId` and `Telegram:Token` to configuration either by adding to `local.settings.json` or using `dotnet-secrets`
