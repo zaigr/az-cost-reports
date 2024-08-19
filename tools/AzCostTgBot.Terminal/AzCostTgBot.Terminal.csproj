@@ -10,12 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cocona"/>
+    <PackageReference Include="Cocona" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets"/>
-    <PackageReference Include="Serilog"/>
-    <PackageReference Include="Serilog.Extensions.Logging"/>
-    <PackageReference Include="Serilog.Sinks.Console"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.Console" />
   </ItemGroup>
 
   <ItemGroup>
