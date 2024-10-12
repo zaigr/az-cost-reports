@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using FluentResults;
+﻿using FluentResults;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -8,7 +7,6 @@ using Telegram.Bot.Types;
 
 namespace AzCostTgBot.BotClients.Telegram;
 
-[SuppressMessage("Style", "IDE0058:Expression value is never used")]
 public class TelegramSender : ITelegramSender
 {
     private readonly string _chatId;

@@ -122,7 +122,7 @@ public class CostManagementProvider : ICostManagementProvider
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await _httpClient.SendAsync(request, cancellation);
-        _ = response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
         var res = await response.Content.ReadAsStringAsync(cancellation);
 

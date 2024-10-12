@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
 using AzCostTgBot.Core.Providers;
 using AzCostTgBot.Core.Providers.Billing;
@@ -11,7 +10,6 @@ using Polly.Retry;
 
 namespace AzCostTgBot.Core;
 
-[SuppressMessage("Style", "IDE0058:Expression value is never used")]
 public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services, Action<AzureConfiguration> azureCfg)
