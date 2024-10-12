@@ -8,7 +8,6 @@
     "ForecastReport:Cron": "0 0 17 * * *",
     "LastBillingPeriodRgReport:Enabled": "true",
     "LastBillingPeriodRgReport:Cron": "0 0 17 13 * *",
-    "Telegram:ChatId": "348317615",
-    "Telegram:UatProxy": ""
+    "Telegram:ChatId": "348317615"
   }
 }

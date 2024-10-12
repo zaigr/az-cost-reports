@@ -152,6 +152,7 @@ csharp_preserve_single_line_blocks = true
 dotnet_diagnostic.Performance.severity = suggestion
 
 dotnet_diagnostic.IDE0270.severity = none
+dotnet_diagnostic.IDE0058.severity = none
 
 dotnet_diagnostic.CA1062.severity = none  # Validate arguments of public methods
 dotnet_diagnostic.CA1848.severity = none  # Use the LoggerMessage delegates
