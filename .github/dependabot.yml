@@ -3,5 +3,10 @@ updates:
 - package-ecosystem: nuget
   directory: "/"
   schedule:
-    interval: daily
+    interval: weekly
   open-pull-requests-limit: 10
+  groups:
+    major-update:
+      applies-to: version-updates
+      update-types:
+      - "major"
