@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using AzCostTgBot.Core.Providers.Billing.Models;
@@ -23,7 +24,7 @@ public class BillingProvider : IBillingProvider
         _subscriptionId = options.Value.SubscriptionId;
     }
 
-    public async Task<BillingPeriod> GetBillingPeriod(int year, int month, CancellationToken cancellation = default)
+    public async Task<BillingPeriod?> GetBillingPeriod(int year, int month, CancellationToken cancellation = default)
     {
         var billingPeriodName = GetBillingPeriodName(year, month);
 
@@ -34,7 +35,12 @@ public class BillingProvider : IBillingProvider
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await _httpClient.SendAsync(request, cancellation);
-        _ = response.EnsureSuccessStatusCode();
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<BillingPeriodResponse>(cancellationToken: cancellation);
         EnsureValidResult(result);
