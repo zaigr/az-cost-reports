@@ -2,5 +2,5 @@
 
 public interface IBillingProvider
 {
-    public Task<BillingPeriod> GetBillingPeriod(int year, int month, CancellationToken cancellation = default);
+    public Task<BillingPeriod?> GetBillingPeriod(int year, int month, CancellationToken cancellation = default);
 }

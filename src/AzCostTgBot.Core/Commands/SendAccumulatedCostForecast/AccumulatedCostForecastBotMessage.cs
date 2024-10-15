@@ -6,18 +6,22 @@ public class AccumulatedCostForecastBotMessage : BotMessageBase
 {
     public required decimal ActualCost { get; init; }
 
-    public required decimal MonthForecastCost { get; init; }
+    public required decimal? MonthForecastCost { get; init; }
 
     public required string CurrencyCode { get; init; }
 
-    public required DateTimeOffset Date { get; set; }
+    public required DateTimeOffset Date { get; init; }
 
     public override TelegramMessage ToTelegramMessage()
     {
+        var forecast = MonthForecastCost.HasValue
+            ? $"{MonthForecastCost:F} {CurrencyCode}"
+            : "MISSING";
+
         var text = $"""
             Cost for {Date:d/M/yy}:
                 Actual: {ActualCost:F} {CurrencyCode}
-                Forecast: {MonthForecastCost:F} {CurrencyCode}
+                Forecast: {forecast}
         """;
 
         return new TelegramMessage

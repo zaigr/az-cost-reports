@@ -57,7 +57,7 @@ public class BillingProviderTests
         var result = await _billingProvider.GetBillingPeriod(2022, 5);
 
         // Assert
-        Assert.Equal("202405-1", result.Name);
+        Assert.Equal("202405-1", result!.Name);
         Assert.Equal(new DateOnly(2024, 3, 12), result.Start);
         Assert.Equal(new DateOnly(2024, 4, 11), result.End);
     }
