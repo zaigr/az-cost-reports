@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Azure.Identity" Version="1.12.1" />
+    <PackageVersion Include="Azure.Identity" Version="1.13.1" />
     <PackageVersion Include="Azure.ResourceManager.Billing" Version="1.2.0" />
     <PackageVersion Include="Cocona" Version="2.2.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
