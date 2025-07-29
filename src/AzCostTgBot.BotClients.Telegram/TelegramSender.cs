@@ -37,24 +37,24 @@ public class TelegramSender : ITelegramSender
 
         try
         {
-            IReadOnlyCollection<IAlbumInputMedia> media = message switch
+            List<IAlbumInputMedia> media = message switch
             {
-                TelegramMediaMessage<TelegramMediaPhoto> photoMessage => photoMessage.Media
+                TelegramMediaMessage<TelegramMediaPhoto> photoMessage => [.. photoMessage.Media
                     .Select(p => new InputMediaPhoto(new InputFileStream(p.Media, p.Name))
                     {
                         Caption = p.Caption ?? message.Text,
                     })
-                    .ToList(),
+                    .Cast<IAlbumInputMedia>()],
                 _ => []
             };
 
             if (media.Count != 0)
             {
-                await _client.SendMediaGroupAsync(_chatId, media, cancellationToken: cancellation).ConfigureAwait(false);
+                await _client.SendMediaGroup(_chatId, media, cancellationToken: cancellation).ConfigureAwait(false);
             }
             else
             {
-                await _client.SendTextMessageAsync(_chatId, message.Text, cancellationToken: cancellation).ConfigureAwait(false);
+                await _client.SendMessage(_chatId, message.Text, cancellationToken: cancellation).ConfigureAwait(false);
             }
         }
         catch (RequestException e)
