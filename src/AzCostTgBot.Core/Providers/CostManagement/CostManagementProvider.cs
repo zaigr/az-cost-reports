@@ -166,12 +166,11 @@ public class CostManagementProvider : ICostManagementProvider
         var rgIndex = Array.FindIndex(response.Properties.Columns, c => c.Name == QueryResourceGroupColumn);
         var currencyIndex = Array.FindIndex(response.Properties.Columns, c => c.Name == QueryCurrencyColumn);
 
-        return response.Properties.Rows
+        return [..response.Properties.Rows
             .Select(r => new ResourceCost(
                 Type: QueryResourceGroupColumn,
                 r[rgIndex].GetString() ?? string.Empty,
                 r[costIndex].Deserialize<decimal>(),
-                r[currencyIndex].GetString() ?? string.Empty))
-            .ToList();
+                r[currencyIndex].GetString() ?? string.Empty))];
     }
 }
