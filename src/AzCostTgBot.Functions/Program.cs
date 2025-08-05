@@ -1,5 +1,7 @@
 using AzCostTgBot.BotClients.Telegram;
 using AzCostTgBot.Core;
+using AzCostTgBot.Core.Commands.SendAccumulatedCostForecast;
+using AzCostTgBot.Core.Commands.SendLastBillingPeriodRgBreakdown;
 using AzCostTgBot.Drawing;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,15 @@ var host = new HostBuilder()
                 azure.SubscriptionId = GetSubscriptionIdEnvironmentValue()
                                        ?? host.Configuration.GetValue("AzureSubscriptionId", string.Empty)!;
             });
+
+        // Register and configure BotCommandDispatcher
+        services.AddSingleton(provider =>
+        {
+            var dispatcher = new BotCommandDispatcher();
+            dispatcher.Register("/forecast", "Show accumulated cost forecast for the current billing period.", args => new SendAccumulatedCostForecastCommand());
+            dispatcher.Register("/breakdown", "Show last billing period resource group cost breakdown.", args => new SendLastBillingPeriodRgBreakdownCommand());
+            return dispatcher;
+        });
     })
     .Build();
 
