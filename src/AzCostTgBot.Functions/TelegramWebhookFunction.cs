@@ -7,6 +7,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace AzCostTgBot.Functions;
@@ -55,7 +56,7 @@ public class TelegramWebhookFunction
         Update? update = null;
         try
         {
-            update = JsonSerializer.Deserialize<Update>(requestBody);
+            update = JsonSerializer.Deserialize<Update>(requestBody, JsonBotAPI.Options);
         }
         catch (JsonException ex)
         {

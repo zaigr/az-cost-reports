@@ -31,7 +31,7 @@ var host = new HostBuilder()
             });
 
         // Register and configure BotCommandDispatcher
-        services.AddSingleton(provider =>
+        services.AddSingleton(_ =>
         {
             var dispatcher = new BotCommandDispatcher();
             dispatcher.Register("/forecast", "Show accumulated cost forecast for the current billing period.", args => new SendAccumulatedCostForecastCommand());

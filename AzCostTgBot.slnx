@@ -1,4 +1,14 @@
 <Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+    <File Path="setWebhook.http" />
+    <File Path="src.ruleset" />
+    <File Path="stylecop.json" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/AzCostTgBot.BotClients.Telegram/AzCostTgBot.BotClients.Telegram.csproj" />
     <Project Path="src/AzCostTgBot.Core/AzCostTgBot.Core.csproj" />
