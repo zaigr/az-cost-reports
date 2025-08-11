@@ -1,0 +1,19 @@
+### Register web-hook for telegram bot
+@botToken = "{{secrets.BOT_TOKEN}}"
+
+POST /bot{{botToken}}/setWebhook
+Host: api.telegram.org
+Content-Type: application/json
+Accept: application/json
+
+{
+    "url": "https://yourdomain.com/your-webhook-endpoint",
+    "secret_token": "your_secret_token"
+}
+
+
+### Unregister web-hook for telegram bot
+POST /bot{{botToken}}/deleteWebhook
+Host: api.telegram.org
+Content-Type: application/json
+Accept: application/json

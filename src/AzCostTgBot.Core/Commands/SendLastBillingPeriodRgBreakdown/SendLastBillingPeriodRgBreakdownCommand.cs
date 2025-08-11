@@ -34,8 +34,8 @@ public class SendLastBillingPeriodRgBreakdownCommandHandler : IRequestHandler<Se
         var grouped = GroupByTopCost(resourceGroups);
 
         var chart = _plotting.Pie(
-            grouped.Select(g => g.Cost).ToArray(),
-            grouped.Select(g => g.Name).ToArray(),
+            [.. grouped.Select(g => g.Cost)],
+            [.. grouped.Select(g => g.Name)],
             new PlotOptions
             {
                 Width = 2500,
@@ -86,8 +86,6 @@ public class SendLastBillingPeriodRgBreakdownCommandHandler : IRequestHandler<Se
             });
         }
 
-        return grouped
-            .Select(r => (r.Name, r.Cost))
-            .ToList();
+        return [.. grouped.Select(r => (r.Name, r.Cost))];
     }
 }

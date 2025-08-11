@@ -59,24 +59,25 @@ public class SkiaPlotting : IPlotting
                 }
 
                 // Draw the label
-                using (var textPaint = new SKPaint { Color = SKColors.Black, TextSize = fontSize, IsAntialias = true })
+                using (var textPaint = new SKPaint { Color = SKColors.Black, IsAntialias = true })
+                using (var font = new SKFont { Size = fontSize })
                 {
                     var percentage = valueShare * 100;
                     var valueLabelText = $"{FormatNumber(values[i])} ({(percentage < 0.1 ? "~" : string.Empty)}{percentage:F1}%)";
 
                     var textBounds = new SKRect();
-                    _ = textPaint.MeasureText(valueLabelText, ref textBounds);
+                    _ = font.MeasureText(valueLabelText, out textBounds);
 
                     // On right side left-align the text
                     if (labelXOutside < rect.MidX)
                     {
-                        canvas.DrawText(valueLabelText, labelXOutside - textBounds.Width, labelYOutside, textPaint);
-                        canvas.DrawText(categories[i], labelXOutside - textBounds.Width, labelYOutside + textPaint.TextSize, textPaint);
+                        canvas.DrawText(valueLabelText, labelXOutside - textBounds.Width, labelYOutside, SKTextAlign.Left, font, textPaint);
+                        canvas.DrawText(categories[i], labelXOutside - textBounds.Width, labelYOutside + font.Size, SKTextAlign.Left, font, textPaint);
                     }
                     else
                     {
-                        canvas.DrawText(valueLabelText, labelXOutside, labelYOutside, textPaint);
-                        canvas.DrawText(categories[i], labelXOutside, labelYOutside + textPaint.TextSize, textPaint);
+                        canvas.DrawText(valueLabelText, labelXOutside, labelYOutside, SKTextAlign.Left, font, textPaint);
+                        canvas.DrawText(categories[i], labelXOutside, labelYOutside + font.Size, SKTextAlign.Left, font, textPaint);
                     }
                 }
 

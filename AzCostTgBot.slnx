@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+    <File Path="setWebhook.http" />
+    <File Path="src.ruleset" />
+    <File Path="stylecop.json" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AzCostTgBot.BotClients.Telegram/AzCostTgBot.BotClients.Telegram.csproj" />
+    <Project Path="src/AzCostTgBot.Core/AzCostTgBot.Core.csproj" />
+    <Project Path="src/AzCostTgBot.Drawing/AzCostTgBot.Drawing.csproj" />
+    <Project Path="src/AzCostTgBot.Functions/AzCostTgBot.Functions.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AzCostTgBot.Core.Tests.Unit/AzCostTgBot.Core.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/AzCostTgBot.Terminal/AzCostTgBot.Terminal.csproj" />
+    <Project Path="tools/AzCostTgBot.UatProxy/AzCostTgBot.UatProxy.csproj" />
+  </Folder>
+</Solution>
