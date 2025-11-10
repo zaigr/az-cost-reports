@@ -29,6 +29,7 @@
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="9.0.10" />
     <ProjectReference Include="..\AzCostTgBot.Core\AzCostTgBot.Core.csproj" />
   </ItemGroup>
 </Project>
